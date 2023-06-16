@@ -32,6 +32,10 @@ public class BancoDeClientes {
         this.clientes = clientes;
     }
 
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
     public boolean verificarClienteExiste(String cpf) {
         if(cpf == null){
             return true;

@@ -20,7 +20,7 @@ class ClienteControllerTest {
     private ClienteController clienteController;
 
     @Test
-    void cadastrarClienteComCPFEmailRepetido() {
+    void cadastrarClienteComEmailRepetido() {
         Cliente cliente = new Cliente("Joao", "161.478.698-78", "ana@gmail.com", 20, "juju");
         //quando eu chamar meu clientJaExiste me retorne true
         when(bancoDeClientes.clienteJaExiste(cliente.getEmail())).thenReturn(true);
@@ -29,18 +29,22 @@ class ClienteControllerTest {
         //verifica se eu nunca salvei esse cliente
         verify(bancoDeClientes, never()).adicionarCliente(cliente);
     }
+    @Test
+    void cadastrarClienteComEmailNovo() {
+        Cliente cliente = new Cliente("Joao", "161.478.698-78", "ana@gmail.com", 20, "juju");
+        when(bancoDeClientes.clienteJaExiste(cliente.getEmail())).thenReturn(false);
+        clienteController.cadastrarCliente(cliente);
+        verify(bancoDeClientes,times(1)).adicionarCliente(cliente);
+    }
 
 
     @Test
     void validaRemoverClienteExistenteComSucesso(){
         String cpf = "160.093.110-39";
-        //preparacao
         when(bancoDeClientes.verificarClienteExiste(any())).thenReturn(true);// any() = qualquer coisa
 
-        //execucao
         clienteController.removerCliente(cpf);
 
-        //validacao
         verify(bancoDeClientes, times(1)).deletaClienteBanco(any());
     }
 
