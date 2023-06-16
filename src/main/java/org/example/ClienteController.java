@@ -10,4 +10,12 @@ public class ClienteController {
         }
         bancoDeClientes.adicionarCliente(cliente);
     }
+
+    public void removerCliente(String cpf){
+        if(bancoDeClientes.verificarClienteExiste(cpf)){
+            bancoDeClientes.deletaClienteBanco(cpf);
+            return;
+        }
+        throw new IllegalArgumentException("Cliente nao encontrado");
+    }
 }

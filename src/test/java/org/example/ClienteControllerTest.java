@@ -1,6 +1,7 @@
 package org.example;
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,5 +28,30 @@ class ClienteControllerTest {
         assertThrows(IllegalArgumentException.class, () -> clienteController.cadastrarCliente(cliente));
         //verifica se eu nunca salvei esse cliente
         verify(bancoDeClientes, never()).adicionarCliente(cliente);
+    }
+
+
+    @Test
+    void validaRemoverClienteExistenteComSucesso(){
+        String cpf = "160.093.110-39";
+        //preparacao
+        when(bancoDeClientes.verificarClienteExiste(any())).thenReturn(true);// any() = qualquer coisa
+
+        //execucao
+        clienteController.removerCliente(cpf);
+
+        //validacao
+        verify(bancoDeClientes, times(1)).deletaClienteBanco(any());
+    }
+
+    @Test
+    void validaRemoverClienteNaoExistente(){
+        String cpf = "160.093.110-39";
+
+        when(bancoDeClientes.verificarClienteExiste(any())).thenReturn(false);// any() = qualquer coisa
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> clienteController.removerCliente(cpf));
+
+        Assertions.assertEquals(exception.getMessage(), "Cliente nao encontrado");
     }
 }

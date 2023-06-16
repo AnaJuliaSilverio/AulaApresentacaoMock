@@ -27,4 +27,20 @@ public class BancoDeClientes {
         adicionarCliente(new Cliente("Ana", "863.325.530-81", "ana@example.com", 40,"L!k2J"));
         adicionarCliente(new Cliente("Carlos", "201.479.790-05", "carlos@example.com", 45,"R#s8T"));
     }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public boolean verificarClienteExiste(String cpf) {
+        if(cpf == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void deletaClienteBanco(String cpf) {
+        //deleta cliente no banco de dados
+    }
 }
